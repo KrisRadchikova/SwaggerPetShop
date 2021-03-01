@@ -7,19 +7,16 @@ import by.tms.petstoreboot.sample.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Valid
 @RequestMapping(path = "/store")
 public class StoreController {
 
 
     private StoreService storeService;
-
-    @PostMapping(path = "/order") //place an order for a pet
-    public Order placeAnOrder(@RequestBody Order order) {
-        return storeService.placeAnOrderForAPet(order);
-    }
 
     @GetMapping
     public List<Order> getAll(){
@@ -31,15 +28,21 @@ public class StoreController {
         return storeService.findPurchaseOrderById(orderId);
     }
 
+    @GetMapping(path = "/inventory/{petId}") //Returns pet inventories by status
+    public Pet returnsPet(@PathVariable long petId) {
+        return storeService.returnsPetInventoriesByStatus(petId);
+    }
+
+    @PostMapping(path = "/order") //place an order for a pet
+    public Order placeAnOrder(@RequestBody Order order) {
+        return storeService.placeAnOrderForAPet(order);
+    }
+
     @DeleteMapping(path = "/order/{orderId}") //Delete purchase order by ID
     public Boolean deletePurchase(@PathVariable long orderId) {
         return storeService.deletePurchaseOrderById(orderId);
     }
 
-    @GetMapping(path = "/inventory/{petId}") //Returns pet inventories by status
-    public Pet returnsPet(@PathVariable long petId) {
-        return storeService.returnsPetInventoriesByStatus(petId);
-    }
 
     @Autowired
     public void setStoreService(StoreService storeService) {

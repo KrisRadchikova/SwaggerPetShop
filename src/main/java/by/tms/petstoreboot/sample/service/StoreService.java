@@ -1,15 +1,13 @@
 package by.tms.petstoreboot.sample.service;
 
+import by.tms.petstoreboot.sample.resources.exceptions.OrderNotFoundException;
 import by.tms.petstoreboot.sample.model.Order;
-import by.tms.petstoreboot.sample.model.OrderStatus;
 import by.tms.petstoreboot.sample.model.Pet;
 import by.tms.petstoreboot.sample.model.PetStatus;
 import by.tms.petstoreboot.sample.storage.StoreStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,7 +33,7 @@ public class StoreService {
                 return order;
             }
         }
-        return null; //сообщение
+        throw new OrderNotFoundException("Order not found");
     }
 
     public Boolean deletePurchaseOrderById(long id) {

@@ -1,5 +1,9 @@
 package by.tms.petstoreboot.sample.service;
 
+import by.tms.petstoreboot.sample.resources.exceptions.InvalidIDSuppliedException;
+import by.tms.petstoreboot.sample.resources.exceptions.InvalidStatusValueException;
+import by.tms.petstoreboot.sample.resources.exceptions.PetExistsException;
+import by.tms.petstoreboot.sample.resources.exceptions.ValidationException;
 import by.tms.petstoreboot.sample.model.Pet;
 import by.tms.petstoreboot.sample.model.PetStatus;
 import by.tms.petstoreboot.sample.storage.PetStorage;
@@ -28,7 +32,7 @@ public class PetService {
                 return pet;
             }
         }
-        return null; //желательно сообщение
+        throw new InvalidStatusValueException("Invalid status value(pet)");
     }
 
     public List<Pet> getPets() {
@@ -41,12 +45,12 @@ public class PetService {
                 return pet;
             }
         }
-        return null; //сообщение
+        throw new InvalidIDSuppliedException("Invalid ID supplied(pet)");
     }
 
     public Pet addNewPet(Pet pet) {
         if (petStorage.getPetList().contains(pet)) {
-            return null;
+            throw new PetExistsException("This pet exists");
         }
         petStorage.getPetList().add(pet);
         return pet;
@@ -59,7 +63,7 @@ public class PetService {
 
     public Pet updatePet(Pet pet) {
         for (Pet p : petStorage.getPetList()) {
-            if (p.getId() == pet.getId()){
+            if (p.getId() == pet.getId()) {
                 p.setCategory(pet.getCategory());
                 p.setName(pet.getName());
                 p.setStatus(pet.getStatus());
@@ -67,7 +71,7 @@ public class PetService {
                 return p;
             }
         }
-        return null;
+        throw new ValidationException("Validation exception(pet)");
     }
 
     @Autowired
