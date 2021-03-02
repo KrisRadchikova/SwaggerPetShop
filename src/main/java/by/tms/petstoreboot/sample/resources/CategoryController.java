@@ -25,7 +25,7 @@ public class CategoryController {
         return categoryService.findCategoryById(categoryId);
     }
 
-    @GetMapping(path = "{categoryName}")
+    @GetMapping(path = "/name/{categoryName}")
     public Category findByName(@PathVariable String categoryName){
         return categoryService.findCategoryByName(categoryName);
     }

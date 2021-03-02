@@ -20,7 +20,7 @@ public class TagController {
         return tagService.getTags();
     }
 
-    @GetMapping(path = "/{tadId}")
+    @GetMapping(path = "/find/{tadId}")
     public Tag findById(@PathVariable long tadId){
         return tagService.findTagById(tadId);
     }
